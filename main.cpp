@@ -26,19 +26,27 @@ void print(int numbers[], int size) {
 }
 
 void countingSort(int numbers[], int size) {
-    int max = (*max_element(numbers,numbers+size)) + 1;
-    int countArray[max] = {};
+    int max = numbers[0];
+    int tempArray[size]; //se crea un tempArray q sera una copia del numbers original
+    //for para encontrar el valor maximo y llenar el tempArray
+    for (int i = 0; i < size; i++) {
+      if (max<numbers[i]) {
+        max=numbers[i];
+      }
+      tempArray[i]=numbers[i];
+    }
+    max++; //se suma uno al max para trabajar mejor la creación de arrays
+    int countArray[max] = {}; //se inicializa el array de conteo
+    //se cuenta las apariciones de los elementos
     for (int i = 0; i < size; i++) {
       int j = numbers[i];
       countArray[j]++;
     }
+    //se realiza la acomulación de las apariciones en el countArray
     for (int i = 1; i < max;i++){
       countArray[i] = countArray[i] + countArray[i-1];
     }
-    int tempArray[size];
-    for (int i = 0; i < size; i++) {
-      tempArray[i]=numbers[i];
-    }
+    //se realiza el reordenamiento teniendo como base el tempArray
     for (int i = 0; i < size; i++) {
       numbers[countArray[tempArray[i]]-1]=tempArray[i];
       countArray[tempArray[i]]=countArray[tempArray[i]]-1;
